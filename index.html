@@ -1,0 +1,188 @@
+
+
+HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Application</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Social Media App</h1>
+            <nav>
+                <a href="#">Home</a>
+                <a href="#">Profile</a>
+                <a href="#">Notifications</a>
+            </nav>
+        </header>
+        
+        <main>
+            <section id="create-post">
+                <h2>Create a Post</h2>
+                <textarea id="postContent" placeholder="What's on your mind?"></textarea>
+                <input type="file" id="postImage">
+                <button onclick="createPost()">Post</button>
+            </section>
+
+            <section id="feed">
+                <h2>Feed</h2>
+                <!-- Posts will be populated here -->
+            </section>
+        </main>
+        
+        <footer>
+            <p>&copy; 2024 Social Media App</p>
+        </footer>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
+
+
+
+CSS
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+header {
+    background: #333;
+    color: #fff;
+    padding: 10px 0;
+}
+
+header h1 {
+    text-align: center;
+    margin: 0;
+}
+
+header nav {
+    text-align: center;
+    margin: 10px 0;
+}
+
+header nav a {
+    color: #fff;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+main {
+    margin: 20px 0;
+}
+
+#create-post {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+input[type="file"] {
+    margin-bottom: 10px;
+}
+
+button {
+    display: inline-block;
+    background: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #555;
+}
+
+#feed .post {
+    background: #fff;
+    padding: 20px;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.post h3 {
+    margin: 0 0 10px;
+}
+
+.post img {
+    max-width: 100%;
+    height: auto;
+    margin: 10px 0;
+}
+
+.post .actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+}
+
+
+
+
+
+
+Js
+const posts = [];
+
+function createPost() {
+    const postContent = document.getElementById('postContent').value;
+    const postImage = document.getElementById('postImage').files[0];
+    
+    if (postContent || postImage) {
+        const post = {
+            id: Date.now(),
+            content: postContent,
+            image: postImage ? URL.createObjectURL(postImage) : null,
+            likes: 0,
+            comments: []
+        };
+        
+        posts.push(post);
+        renderPosts();
+        
+        document.getElementById('postContent').value = '';
+        document.getElementById('postImage').value = '';
+    }
+}
+
+function renderPosts() {
+    const feed = document.getElementById('feed');
+    feed.innerHTML = '';
+    
+    posts.forEach(post => {
+        const postElement = document.createElement('div');
